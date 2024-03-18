@@ -15,7 +15,7 @@ const App = (props) => {
   useEffect(() => {
     console.log('effect')
     axios
-      .get('http://localhost:3001/notes')
+      .get('http://localhost:3002/notes')
       .then(response => {
         console.log('promise fulfilled')
         setNotes(response.data)
@@ -27,11 +27,15 @@ const App = (props) => {
     const noteObject = {
       content: newNote,
       important: Math.random() < 0.5,
-      id: notes.length + 1,
+      //id: notes.length + 1,
     }
   
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
+    axios
+    .post('http://localhost:3002/notes', noteObject)
+    .then(response => {
+      setNotes(notes.concat(response.data))
+      setNewNote('')
+    })
   }
 
   const handleNoteChange = (event) => {
